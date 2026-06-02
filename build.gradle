@@ -20,4 +20,6 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    systemProperty 'webdriver.chrome.driver', System.getenv('CHROMEDRIVER_PATH') ?: '/usr/bin/chromedriver'
+    systemProperty 'webdriver.chrome.arguments', '--headless,--no-sandbox,--disable-dev-shm-usage'
 }
