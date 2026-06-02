@@ -16,7 +16,6 @@ public class SearchComparisonTest {
     }
 
     @Step("What are we doing here?")
-    @Step("Really?")
     void performSearchComparison() {
         SelenideElement twoInOne = $("h2 a");
         SelenideElement oneByOne = $("h2").$("a");
