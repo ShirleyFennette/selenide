@@ -10,16 +10,15 @@ dependencies {
     // Selenide
     testImplementation 'com.codeborne:selenide:6.0.3'
     // JUnit 5
-        testImplementation 'io.github.bonigarcia:webdrivermanager:5.6.2'
+    testImplementation 'io.github.bonigarcia:webdrivermanager:5.6.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
     // Allure annotations, если нужны
     testImplementation 'ru.yandex.qatools.allure:allure-java-annotations:1.5.4' // или актуальную версию
-        testImplementation 'io.qameta.allure:allure-junit5:2.21.0'
+    testImplementation 'io.qameta.allure:allure-junit5:2.21.0'
 }
 
 test {
     useJUnitPlatform()
-    systemProperty 'webdriver.chrome.driver', System.getenv('CHROMEDRIVER_PATH') ?: '/usr/bin/chromedriver'
     systemProperty 'webdriver.chrome.arguments', '--headless,--no-sandbox,--disable-dev-shm-usage'
 }
