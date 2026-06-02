@@ -21,27 +21,27 @@ env:
   ALLURE_TOKEN: 67aad6fa-966a-49ef-a598-e572b3e030f9
 
 jobs:
-  selenide-tests:
-    runs-on: ubuntu-latest  # или windows-latest, если нужна Windows среда
+  gradle-tests:
+    runs-on: ubuntu-latest  # или windows-latest, если предпочитаете Windows
     
     steps:
       - uses: actions/checkout@v3
       
-      - name: Setup JDK
+      - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-          java-version: '17'  # или другую версию по вашему проекту
+          java-version: '17'  # подставьте вашу версию JDK
       
-      - name: Cache Maven Dependencies
+      - name: Cache Gradle dependencies
         uses: actions/cache@v3
         with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle', '**/gradle.properties') }}
           restore-keys: |
-            ${{ runner.os }}-maven-
+            ${{ runner.os }}-gradle-
       
-      - name: Build Project
-        run: mvn clean verify  # или gradle build, если используете Gradle
+      - name: Build with Gradle
+        run: gradle build
       
       - name: Install Allure CLI
         uses: allure-framework/setup-allurectl@v1
@@ -50,13 +50,12 @@ jobs:
           allure-token: ${{ env.ALLURE_TOKEN }}
           allure-project-id: ${{ env.ALLURE_PROJECT_ID }}
       
-      - name: Run Selenide Tests and Generate Allure Reports
+      - name: Run Tests and Generate Reports
         run: |
-          # Запускаем тесты. Предполагается, что ваши тесты настроены на генерацию отчётов в allure-results
-          mvn test
+          # Запускаем тесты, предполагается, что они настроены на сбор отчётов Allure в папке allure-results
+          gradle test
           
-          # После завершения тестов запускаем watcher для загрузки результатов
+          # Запускаем watcher для автоматической отправки результатов
           allurectl watch --project-id ${{ env.ALLURE_PROJECT_ID }} --results-path ${{ env.ALLURE_RESULTS }} --token ${{ env.ALLURE_TOKEN }}
         env:
           TEST_ENDPOINT: ${{ github.event.inputs.TEST_ENDPOINT }}
-          # при необходимости добавьте другие переменные окружения
