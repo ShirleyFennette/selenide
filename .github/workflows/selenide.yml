@@ -1,0 +1,45 @@
+name: Selenide Test with allurectl upload
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Build and run tests
+        run: mvn clean verify
+
+      - name: Install allurectl
+        run: |
+          curl -L https://github.com/allure-framework/allurectl/releases/latest/download/allurectl-linux-amd64 -o allurectl
+          chmod +x allurectl
+          sudo mv allurectl /usr/local/bin/
+
+      - name: Upload allure results to TestOps
+        env:
+          ALLURE_TOKEN: ${{ secrets.ALLURE_TOKEN }}
+        run: |
+          # Запуск watcher для автоматической отправки результатов в TestOps
+          allurectl watch --project-id <your_project_id> --results-path target/allure-results --token $ALLURE_TOKEN
