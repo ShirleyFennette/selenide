@@ -9,6 +9,8 @@ import static com.codeborne.selenide.Selenide.open;
 public class SearchComparisonTest {
 
     @Test
+    @Step("What are we doing here?")
+    @Step("Really?")
     void searchDifferenceTest() {
         open("http://khpi-iip.mipk.kharkiv.edu/library/extent/prog/iipXML/xmlintro.html");
         SelenideElement twoInOne = $("h2 a");
