@@ -16,7 +16,7 @@ dependencies {
             "org.slf4j:slf4j-simple:1.7.30")
     
     // Добавляем Allure annotations
-    testImplementation 'io.qameta.allure:allure-java-annotations:2.35.0'
+    testImplementation 'io.qameta.allure:allure-java-annotations:2.17.3'
 }
 
 test {
