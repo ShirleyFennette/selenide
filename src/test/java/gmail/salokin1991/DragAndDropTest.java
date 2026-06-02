@@ -6,7 +6,7 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.*;
 
 
-public class DragAndDropTest {
+public class DragAndDropTest extends BaseTest {
 
     @Test
     void actionsTest(){
