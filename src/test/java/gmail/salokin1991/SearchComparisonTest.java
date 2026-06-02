@@ -7,7 +7,7 @@ import io.qameta.allure.Step;  // импортируем аннотацию
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
-public class SearchComparisonTest {
+public class SearchComparisonTest extends BaseTest {
 
     @Test
     void searchDifferenceTest() {
