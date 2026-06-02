@@ -17,7 +17,7 @@ dependencies {
     
     // Добавляем Allure annotations
     testImplementation 'io.qameta.allure:allure-java-commons:2.17.3'
-    testImplementation 'io.qameta.allure:allure-java-annotations:1.5.4'
+    testImplementation 'ru.yandex.qatools.allure:allure-java-annotations:1.5.4'
 }
 
 test {
