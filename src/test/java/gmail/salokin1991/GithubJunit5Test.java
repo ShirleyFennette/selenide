@@ -8,7 +8,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
 
-public class GithubJunit5Test {
+public class GithubJunit5Test extends BaseTest {
 
     @Test
     void firstTest(){
