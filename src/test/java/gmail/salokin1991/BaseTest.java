@@ -9,13 +9,13 @@ public class BaseTest {
     @BeforeAll
     static void setupWebDriver() {
         WebDriverManager.chromedriver().setup();
+        Configuration.browser = "chrome";
+        Configuration.headless = true;
+        Configuration.timeout = 10000;
     }
 
     @BeforeEach
     public void setUp() {
-        Configuration.browser = "chrome";
-        Configuration.headless = true;
-        Configuration.timeout = 10000;
         Configuration.browserBinary = "/usr/bin/chromium-browser";
     }
 }
