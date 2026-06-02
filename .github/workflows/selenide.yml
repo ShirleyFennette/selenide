@@ -22,48 +22,43 @@ env:
 
 jobs:
   gradle-tests:
-    runs-on: ubuntu-latest  # или windows-latest, если предпочитаете Windows
-    
-steps:
-  - uses: actions/checkout@v3
-  
-  - name: Set up JDK
-    uses: actions/setup-java@v3
-    with:
-      distribution: 'temurin'
-      java-version: '17'
-  
-  - name: Cache Gradle dependencies
-    uses: actions/cache@v3
-    with:
-      path: ~/.gradle/caches
-      key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle', '**/gradle.properties') }}
-      restore-keys: |
-        ${{ runner.os }}-gradle-
-  
-  - name: Install Chrome
-    run: |
-      sudo apt-get update
-      sudo apt-get install -y chromium-browser
-  
-  - name: Build with Gradle
-    run: gradle build
-  
-  # ... rest of workflow
-      
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle', '**/gradle.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Install Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y chromium-browser
+
+      - name: Build with Gradle
+        run: gradle build
+
       - name: Install Allure CLI
         uses: allure-framework/setup-allurectl@v1
         with:
           allure-endpoint: ${{ env.ALLURE_ENDPOINT }}
           allure-token: ${{ env.ALLURE_TOKEN }}
           allure-project-id: ${{ env.ALLURE_PROJECT_ID }}
-      
+
       - name: Run Tests and Generate Reports
         run: |
-          # Запускаем тесты, предполагается, что они настроены на сбор отчётов Allure в папке allure-results
           gradle test
-          
-          # Запускаем watcher для автоматической отправки результатов
           allurectl watch --project-id ${{ env.ALLURE_PROJECT_ID }} --results-path ${{ env.ALLURE_RESULTS }} --token ${{ env.ALLURE_TOKEN }}
         env:
           TEST_ENDPOINT: ${{ github.event.inputs.TEST_ENDPOINT }}
